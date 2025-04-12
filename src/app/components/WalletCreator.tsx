@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ethers } from "ethers";
-import { stringify } from "querystring";
 
 export default function WalletCreator() {
     const [wallets, setWallets] = useState<{ address: string; privateKey: string }[]>([]);
