@@ -33,28 +33,28 @@ export default function WalletCreator() {
                 </button>
             </div>
             {wallets.slice().reverse().map((wallet, index) => (
-            <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
-            <p className="font-semibold mb-1">Address:</p>
-            <p className="text-center break-words">{wallet.address}</p>
-            <button
-                onClick={() => copyToClipboard(wallet.address, index, "address")}
-                className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
-            >
-                {copied?.index === index && copied?.type === "address" ? "Copied address!" : "Copy address"}
-            </button>
+                <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
+                    <p className="font-semibold mb-1">Address:</p>
+                    <p className="text-center break-words">{wallet.address}</p>
+                    <button
+                        onClick={() => copyToClipboard(wallet.address, index, "address")}
+                        className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
+                    >
+                        {copied?.index === index && copied?.type === "address" ? "Copied address!" : "Copy address"}
+                    </button>
 
-            <div className="mt-2">
-                <p className="font-semibold mb-1">Private Key:</p>
-                <p className="text-center break-words">{wallet.privateKey}</p>
-                <button
-                    onClick={() => copyToClipboard(wallet.privateKey, index, "privateKey")}
-                    className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
-                >
-                    {copied?.index === index && copied?.type === "privateKey" ? "Copied private key!" : "Copy private key"}
-                </button>
-            </div>
-            </div>
-         ))}
+                    <div className="mt-2">
+                        <p className="font-semibold mb-1">Private Key:</p>
+                        <p className="text-center break-words">{wallet.privateKey}</p>
+                        <button
+                            onClick={() => copyToClipboard(wallet.privateKey, index, "privateKey")}
+                            className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
+                        >
+                            {copied?.index === index && copied?.type === "privateKey" ? "Copied private key!" : "Copy private key"}
+                        </button>
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }
