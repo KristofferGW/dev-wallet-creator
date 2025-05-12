@@ -4,11 +4,19 @@ import { ethers } from "ethers";
 export default function WalletCreator() {
     const [wallets, setWallets] = useState<{ address: string; privateKey: string, createdAt: string }[]>([]);
     const [copied, setCopied] = useState<{ index: number; type: "address" | "privateKey" } | null>(null);
+    const [count, setCount] = useState(1);
 
-    const createWallet = () => {
-        const wallet = ethers.Wallet.createRandom();
-        const timestamp = new Date().toLocaleString();
-        setWallets((prev) => [...prev, { address: wallet.address, privateKey: wallet.privateKey, createdAt: timestamp }]);
+    const createWallets = () => {
+        const newWallets = Array.from({ length: count }, () => {
+            const wallet = ethers.Wallet.createRandom();
+            return {
+                address: wallet.address,
+                privateKey: wallet.privateKey,
+                createdAt: new Date().toLocaleString(),
+            };
+        });
+
+        setWallets((prevWallets) => [...prevWallets, ...newWallets]);
     };
 
     const copyToClipboard = async (text: string, index: number, type: "address" | "privateKey") => {
@@ -24,12 +32,19 @@ export default function WalletCreator() {
     return (
         <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-3xl font-bold mb-6 text-center">Dev Wallet Creator</h1>
-            <div className="flex justify-center mb-6">
+            <div className="flex flex-col items-center mb-6 gap-2">
+                <input
+                    type="number"
+                    min={1}
+                    value={count}
+                    onChange={(e) => setCount(Number(e.target.value))}
+                    className="w-32 px-2 py-1 rounded border border-gray-600 bg-gray-900 text-white text-center"
+                />
                 <button
-                    onClick={createWallet}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded mb-6 cursor-pointer"
+                    onClick={createWallets}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded cursor-pointer"
                 >
-                    Create Test Wallet
+                    Create Wallet(s)
                 </button>
             </div>
             {wallets.slice().reverse().map((wallet, index) => (
