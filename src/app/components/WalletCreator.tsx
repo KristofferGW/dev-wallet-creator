@@ -3,18 +3,19 @@ import { ethers } from "ethers";
 
 export default function WalletCreator() {
     const [wallets, setWallets] = useState<{ address: string; privateKey: string }[]>([]);
-    const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+    const [copied, setCopied] = useState<{ index: number; type: "address" | "privateKey" } | null>(null);
 
     const createWallet = () => {
+        console.log("Creating wallet...");
         const wallet = ethers.Wallet.createRandom();
         setWallets((prev) => [...prev, { address: wallet.address, privateKey: wallet.privateKey }]);
     };
 
-    const copyToClipboard = async (text: string, index: number) => {
+    const copyToClipboard = async (text: string, index: number, type: "address" | "privateKey") => {
         try {
             await navigator.clipboard.writeText(text);
-            setCopiedIndex(index);
-            setTimeout(() => setCopiedIndex(null), 2000);
+            setCopied({ index, type });
+            setTimeout(() => setCopied(null), 2000);
         } catch (error) {
             console.error("Failed to copy text: ", error);
         }
@@ -33,19 +34,24 @@ export default function WalletCreator() {
             </div>
             {wallets.map((wallet, index) => (
             <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
-            <p><span className="font-semibold">Address:</span> {wallet.address}</p>
+            <p className="font-semibold mb-1">Address:</p>
+            <p className="text-center break-words">{wallet.address}</p>
+            <button
+                onClick={() => copyToClipboard(wallet.address, index, "address")}
+                className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
+            >
+                {copied?.index === index && copied?.type === "address" ? "Copied address!" : "Copy address"}
+            </button>
 
             <div className="mt-2">
                 <p className="font-semibold mb-1">Private Key:</p>
-                <div className="flex items-center gap-2">
                 <p className="text-center break-words">{wallet.privateKey}</p>
                 <button
-                    onClick={() => copyToClipboard(wallet.privateKey, index)}
+                    onClick={() => copyToClipboard(wallet.privateKey, index, "privateKey")}
                     className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 text-xs rounded cursor-pointer"
                 >
-                    {copiedIndex === index ? "Copied!" : "Copy"}
+                    {copied?.index === index && copied?.type === "privateKey" ? "Copied private key!" : "Copy private key"}
                 </button>
-                </div>
             </div>
             </div>
         ))}
