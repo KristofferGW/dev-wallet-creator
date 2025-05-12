@@ -42,9 +42,11 @@ export default function WalletCreator() {
                 />
                 <button
                     onClick={createWallets}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded cursor-pointer"
+                    className={`${count < 1 ? "bg-gray-500 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+                        } text-white font-medium py-2 px-4 rounded`}
+                    disabled={count < 1}
                 >
-                    Create Wallet(s)
+                    {count < 1 ? "Don't be ridiculous" : count === 1 ? "Create Wallet" : "Create Wallets"}
                 </button>
             </div>
             {wallets.slice().reverse().map((wallet, index) => (
