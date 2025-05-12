@@ -2,13 +2,13 @@ import { useState } from "react";
 import { ethers } from "ethers";
 
 export default function WalletCreator() {
-    const [wallets, setWallets] = useState<{ address: string; privateKey: string }[]>([]);
+    const [wallets, setWallets] = useState<{ address: string; privateKey: string, createdAt: string }[]>([]);
     const [copied, setCopied] = useState<{ index: number; type: "address" | "privateKey" } | null>(null);
 
     const createWallet = () => {
-        console.log("Creating wallet...");
         const wallet = ethers.Wallet.createRandom();
-        setWallets((prev) => [...prev, { address: wallet.address, privateKey: wallet.privateKey }]);
+        const timestamp = new Date().toLocaleString();
+        setWallets((prev) => [...prev, { address: wallet.address, privateKey: wallet.privateKey, createdAt: timestamp }]);
     };
 
     const copyToClipboard = async (text: string, index: number, type: "address" | "privateKey") => {
@@ -34,6 +34,7 @@ export default function WalletCreator() {
             </div>
             {wallets.slice().reverse().map((wallet, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
+                    <p className="text-xs text-gray-400 mb-2">Created: {wallet.createdAt}</p>
                     <p className="font-semibold mb-1">Address:</p>
                     <p className="text-center break-words">{wallet.address}</p>
                     <button
