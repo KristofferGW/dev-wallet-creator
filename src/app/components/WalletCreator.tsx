@@ -32,7 +32,7 @@ export default function WalletCreator() {
                     Create Test Wallet
                 </button>
             </div>
-            {wallets.map((wallet, index) => (
+            {wallets.slice().reverse().map((wallet, index) => (
             <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
             <p className="font-semibold mb-1">Address:</p>
             <p className="text-center break-words">{wallet.address}</p>
@@ -54,7 +54,7 @@ export default function WalletCreator() {
                 </button>
             </div>
             </div>
-        ))}
+         ))}
         </div>
     );
 }
