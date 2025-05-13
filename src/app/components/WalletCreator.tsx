@@ -19,6 +19,28 @@ export default function WalletCreator() {
         setWallets((prevWallets) => [...prevWallets, ...newWallets]);
     };
 
+    const exportToCSV = () => {
+        if (wallets.length === 0) return;
+
+        const headers = ["Address", "Private Key", "Created At"];
+        const rows = wallets.map(wallet => [wallet.address, wallet.privateKey, wallet.createdAt]);
+
+        const csvContent = [headers, ...rows]
+            .map(row => row.map(field => `"${field}"`).join(","))
+            .join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `wallets_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
     const copyToClipboard = async (text: string, index: number, type: "address" | "privateKey") => {
         try {
             await navigator.clipboard.writeText(text);
@@ -48,6 +70,14 @@ export default function WalletCreator() {
                 >
                     {count < 1 ? "Don't be ridiculous" : count === 1 ? "Create Wallet" : "Create Wallets"}
                 </button>
+                <button
+                    onClick={exportToCSV}
+                    className={`bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded ${wallets.length === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                    disabled={wallets.length === 0}
+                >
+                    Export to CSV
+                </button>
+
             </div>
             {wallets.slice().reverse().map((wallet, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4 border border-gray-700 overflow-x-auto">
