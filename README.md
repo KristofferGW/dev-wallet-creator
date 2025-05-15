@@ -1,16 +1,16 @@
-# 🦾 Dev Wallet Creator
+# Dev Wallet Creator
 
 A simple and fast wallet generator for Ethereum and Solana testnets. Great for developers who need quick access to multiple wallets for testing in EVM-compatible or Solana-based environments.
 
-## ✨ Features
+## Features
 
-- 🔀 Generate random **Ethereum** or **Solana** wallets
-- 📄 Export all wallets to a **CSV file**
-- 📋 Copy public address and private key to clipboard
-- 🌙 Dark mode UI (Tailwind CSS)
-- 🧠 Built with **Next.js**, **TypeScript**, `ethers.js`, and `@solana/web3.js`
+- Generate random **Ethereum** or **Solana** wallets
+- Export all wallets to a **CSV file**
+- Copy public address and private key to clipboard
+- Dark mode UI (Tailwind CSS)
+- Built with **Next.js**, **TypeScript**, `ethers.js`, and `@solana/web3.js`
 
-## 🚀 Demo
+## Demo
 
 1. Choose chain: **Ethereum** or **Solana**  
 2. Select number of wallets to generate  
@@ -19,7 +19,7 @@ A simple and fast wallet generator for Ethereum and Solana testnets. Great for d
 
 Wallets can be used in MetaMask (Ethereum testnets like Sepolia) or Solana dev environments (e.g., local validator or Devnet).
 
-## 📦 Tech Stack
+## Tech Stack
 
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -27,7 +27,7 @@ Wallets can be used in MetaMask (Ethereum testnets like Sepolia) or Solana dev e
 - [@solana/web3.js](https://solana-labs.github.io/solana-web3.js/)
 - TypeScript
 
-## 🛠 Getting Started
+## Getting Started
 
 1. **Clone the repo:**
    ```bash
