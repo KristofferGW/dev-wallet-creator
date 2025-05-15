@@ -66,7 +66,7 @@ export default function WalletCreator() {
 
     return (
         <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-3xl font-bold mb-6 text-center">Dev Wallet Creator</h1>
+            {/* <h1 className="text-3xl font-bold mb-6 text-center">Dev Wallet Creator</h1> */}
             <select
                 value={chain}
                 onChange={(e) => setChain(e.target.value as "ethereum" | "solana")}
