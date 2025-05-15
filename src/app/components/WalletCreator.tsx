@@ -1,23 +1,36 @@
 import { useState } from "react";
+import bs58 from "bs58";
 import { ethers } from "ethers";
+import { Keypair } from "@solana/web3.js";
 
 export default function WalletCreator() {
     const [wallets, setWallets] = useState<{ address: string; privateKey: string, createdAt: string }[]>([]);
+    const [chain, setChain] = useState<"ethereum" | "solana">("ethereum");
     const [copied, setCopied] = useState<{ index: number; type: "address" | "privateKey" } | null>(null);
     const [count, setCount] = useState(1);
 
     const createWallets = () => {
         const newWallets = Array.from({ length: count }, () => {
-            const wallet = ethers.Wallet.createRandom();
-            return {
-                address: wallet.address,
-                privateKey: wallet.privateKey,
-                createdAt: new Date().toLocaleString(),
-            };
+            if (chain === "ethereum") {
+                const wallet = ethers.Wallet.createRandom();
+                return {
+                    address: wallet.address,
+                    privateKey: wallet.privateKey,
+                    createdAt: new Date().toLocaleString(),
+                };
+            } else {
+                const wallet = Keypair.generate();
+                return {
+                    address: wallet.publicKey.toBase58(),
+                    privateKey: bs58.encode(wallet.secretKey),
+                    createdAt: new Date().toLocaleString(),
+                };
+            }
         });
 
         setWallets((prevWallets) => [...prevWallets, ...newWallets]);
     };
+
 
     const exportToCSV = () => {
         if (wallets.length === 0) return;
@@ -54,6 +67,15 @@ export default function WalletCreator() {
     return (
         <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-3xl font-bold mb-6 text-center">Dev Wallet Creator</h1>
+            <select
+                value={chain}
+                onChange={(e) => setChain(e.target.value as "ethereum" | "solana")}
+                className="w-40 px-2 py-1 rounded border border-gray-600 bg-gray-900 text-white text-center mb-2"
+            >
+                <option value="ethereum">Ethereum</option>
+                <option value="solana">Solana</option>
+            </select>
+
             <div className="flex flex-col items-center mb-6 gap-2">
                 <input
                     type="number"
